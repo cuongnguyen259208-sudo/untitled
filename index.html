@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VietCuong - Three.js Particle Effect</title>
+  <title>VietCuong</title>
 
-  <!-- Nhập font chữ Megrim từ Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Megrim&display=swap" rel="stylesheet">
@@ -22,7 +21,6 @@
       font-family: 'Megrim', cursive;
     }
 
-    /* Tiêu đề VietCuong đã được chỉnh nhỏ hơn */
     #word {
       font-family: 'Megrim', cursive;
       font-size: 8vh; /* Giảm kích thước từ 20vh xuống 8vh */
@@ -44,7 +42,6 @@
     }
   </style>
 
-  <!-- Import map cho Three.js và OrbitControls -->
   <script type="importmap">
     {
       "imports": {
@@ -56,14 +53,12 @@
 </head>
 <body>
 
-  <!-- Đổi chữ NOVA thành VietCuong -->
   <div id="word">VietCuong</div>
 
   <script type="module">
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-    // 1. Khởi tạo Scene, Camera, Renderer
     let scene = new THREE.Scene();
     scene.background = new THREE.Color(0x160016);
 
@@ -75,7 +70,6 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     document.body.appendChild(renderer.domElement);
 
-    // 2. Thêm bộ điều khiển OrbitControls
     let controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enablePan = false;
@@ -86,7 +80,6 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // 3. Khởi tạo dữ liệu hạt Particles
     let gu = {
       time: { value: 0 }
     };
@@ -104,7 +97,6 @@
       );
     };
 
-    // Tạo các hạt ở quả cầu trung tâm
     for (let i = 0; i < 50000; i++) {
       let p = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 0.5 + 9.5);
       pts.push(p);
@@ -112,7 +104,6 @@
       pushShift();
     }
 
-    // Tạo các hạt ở vầng thiên hà bao quanh
     for (let i = 0; i < 100000; i++) {
       let r = 10;
       let R = 40;
@@ -128,7 +119,6 @@
       pushShift();
     }
 
-    // 4. Khởi tạo Geometry và Custom Shader
     let g = new THREE.BufferGeometry().setFromPoints(pts);
     g.setAttribute('sizes', new THREE.Float32BufferAttribute(sizes, 1));
     g.setAttribute('shift', new THREE.Float32BufferAttribute(shift, 4));
@@ -178,13 +168,11 @@
       }
     });
 
-    // 5. Đưa đối tượng vào Scene
     let p = new THREE.Points(g, m);
     p.rotation.order = 'ZYX';
     p.rotation.z = 0.2;
     scene.add(p);
 
-    // 6. Vòng lặp Render & Animation
     let clock = new THREE.Clock();
 
     renderer.setAnimationLoop(() => {
